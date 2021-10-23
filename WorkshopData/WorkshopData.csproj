@@ -69,6 +69,9 @@
     <Compile Include="SP_GetTrainers_Result.cs">
       <DependentUpon>WorkshopDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GetUserById_Result.cs">
+      <DependentUpon>WorkshopDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GetWorkshopById_Result.cs">
       <DependentUpon>WorkshopDataModel.tt</DependentUpon>
     </Compile>

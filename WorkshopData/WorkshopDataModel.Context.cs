@@ -276,5 +276,68 @@ namespace WorkshopData
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spAuthenticateUser_Result>("spAuthenticateUser", userNameParameter, passwordParameter);
         }
+    
+        public virtual int SP_ActivateDeactivateUsers(Nullable<int> userId, Nullable<bool> isActive)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_ActivateDeactivateUsers", userIdParameter, isActiveParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetUserById_Result> SP_GetUserById(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetUserById_Result>("SP_GetUserById", userIdParameter);
+        }
+    
+        public virtual int SP_UpdateUsers(string firstName, string lastName, string userGender, string mobile, string skillsSet, string experience, Nullable<System.DateTime> userDob, Nullable<int> roleId, Nullable<int> userId)
+        {
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("FirstName", firstName) :
+                new ObjectParameter("FirstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("LastName", lastName) :
+                new ObjectParameter("LastName", typeof(string));
+    
+            var userGenderParameter = userGender != null ?
+                new ObjectParameter("UserGender", userGender) :
+                new ObjectParameter("UserGender", typeof(string));
+    
+            var mobileParameter = mobile != null ?
+                new ObjectParameter("Mobile", mobile) :
+                new ObjectParameter("Mobile", typeof(string));
+    
+            var skillsSetParameter = skillsSet != null ?
+                new ObjectParameter("SkillsSet", skillsSet) :
+                new ObjectParameter("SkillsSet", typeof(string));
+    
+            var experienceParameter = experience != null ?
+                new ObjectParameter("Experience", experience) :
+                new ObjectParameter("Experience", typeof(string));
+    
+            var userDobParameter = userDob.HasValue ?
+                new ObjectParameter("UserDob", userDob) :
+                new ObjectParameter("UserDob", typeof(System.DateTime));
+    
+            var roleIdParameter = roleId.HasValue ?
+                new ObjectParameter("RoleId", roleId) :
+                new ObjectParameter("RoleId", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateUsers", firstNameParameter, lastNameParameter, userGenderParameter, mobileParameter, skillsSetParameter, experienceParameter, userDobParameter, roleIdParameter, userIdParameter);
+        }
     }
 }

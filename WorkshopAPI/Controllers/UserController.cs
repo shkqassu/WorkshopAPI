@@ -27,11 +27,19 @@ namespace WorkshopAPI.Controllers
             }
         }
 
-        public UserDetail GetUserById(string Username)
+        public UserDetail GetUserByUserName(string Username)
         {
             using (conString con = new conString())
             {
                 return con.UserDetails.Find(Username);
+            }
+        }
+
+        public List<SP_GetUserById_Result> GetUserById(int UserId)
+        {
+            using (conString con = new conString())
+            {
+                return con.SP_GetUserById(UserId).ToList<SP_GetUserById_Result>();
             }
         }
 
@@ -58,7 +66,69 @@ namespace WorkshopAPI.Controllers
         #endregion
 
         #region Post
+        public bool CreateUserRequest(UserDetail UD)
+        {
+            using (conString con = new conString())
+            {
+                try
+                {
+                    con.SP_InsertIntoUserDetailsOfStudents(UD.UserName_Email);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
 
+        public bool CreateTrainer(UserDetail UD)
+        {
+            using (conString con = new conString())
+            {
+                try
+                {
+                    con.SP_CreateTrainer(UD.UserName_Email, UD.FirstName, UD.LastName, UD.RoleId);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool ActivateDeactivateUsers(UserDetail UD)
+        {
+            using (conString con = new conString())
+            {
+                try
+                {
+                    con.SP_ActivateDeactivateUsers(UD.Userid, UD.IsActive);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool UpdateUsers(UserDetail UD)
+        {
+            using (conString con = new conString())
+            {
+                try
+                {
+                    con.SP_UpdateUsers(UD.FirstName, UD.LastName, UD.UserGender, UD.Mobile, UD.SkillsSet, UD.Experience, UD.UserDob, UD.RoleId, UD.Userid);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
         #endregion
     }
 }
