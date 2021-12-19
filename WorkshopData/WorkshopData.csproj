@@ -60,6 +60,9 @@
     <Compile Include="spAuthenticateUser_Result.cs">
       <DependentUpon>WorkshopDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SP_GetAllStudents_Result.cs">
+      <DependentUpon>WorkshopDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="SP_GetMaterials_Result.cs">
       <DependentUpon>WorkshopDataModel.tt</DependentUpon>
     </Compile>

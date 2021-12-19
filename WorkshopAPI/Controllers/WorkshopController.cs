@@ -9,46 +9,94 @@ using WorkshopData;
 
 namespace WorkshopAPI.Controllers
 {
-    [RoutePrefix("api/workshop")]
+    [RoutePrefix("api/Workshop")]
     public class WorkshopController : ApiController
     {
         #region Get
         [HttpGet]
-        public List<SP_GetWorkshops_Result> GetWorkshops()
+        public IHttpActionResult GetWorkshops()
         {
             using(conString con = new conString())
             {
-                return con.SP_GetWorkshops().ToList<SP_GetWorkshops_Result>();
+                try
+                {
+                    var response = con.SP_GetWorkshops().ToList<SP_GetWorkshops_Result>();
+                    if (response.Count <= 0)
+                    {
+                        return NotFound();
+                    }
+                    return Ok(response);
+                }
+                catch
+                {
+                    return BadRequest();
+                }
             }
         }
 
         [HttpGet]
-        [Route("WorkshopByUser/{StudentId}")]
-        public List<SP_GetWorkShopByUser_Result> GetWorkshopByUser(int StudentId)
+        [Route("WorkshopByUserId")]
+        public IHttpActionResult GetWorkshopByUser(int StudentId)
         {
             using (conString con = new conString())
             {
-                return con.SP_GetWorkShopByUser(StudentId).ToList<SP_GetWorkShopByUser_Result>();
-            }
+                try
+                {
+                    var response = con.SP_GetWorkShopByUser(StudentId).ToList<SP_GetWorkShopByUser_Result>();
+                    if (response.Count <= 0)
+                    {
+                        return NotFound();
+                    }
+                    return Ok(response);
+                }
+                    catch
+                {
+                    return BadRequest();
+                }
+        }
         }
 
         [HttpGet]
-        [Route("WorkshopById/{WorkshopId}")]
-        public List<SP_GetWorkshopById_Result> GetWorkshopById(int WorkshopId)
+        [Route("WorkshopById")]
+        public IHttpActionResult GetWorkshopById(int WorkshopId)
         {
             using (conString con = new conString())
             {
-                return con.SP_GetWorkshopById(WorkshopId).ToList<SP_GetWorkshopById_Result>();
+                try
+                {
+                    var response = con.SP_GetWorkshopById(WorkshopId).ToList<SP_GetWorkshopById_Result>();
+                    if (response.Count <= 0)
+                    {
+                        return NotFound();
+                    }
+                    return Ok(response);
+                }
+                catch
+                {
+                    return BadRequest();
+                }
             }
         }
 
         [HttpGet]
         [Route("WorkshopRequest")]
-        public List<SP_GetWorkshopRequest_Result> GetWorkshopRequest()
+        public IHttpActionResult GetWorkshopRequest()
         {
             using (conString con = new conString())
             {
-                return con.SP_GetWorkshopRequest().ToList<SP_GetWorkshopRequest_Result>();
+                try
+                {
+                    var response = con.SP_GetWorkshopRequest().ToList<SP_GetWorkshopRequest_Result>();
+                    if (response.Count <= 0)
+                    {
+                        return NotFound();
+                    }
+                    return Ok(response);
+                }
+                catch
+                {
+                    return BadRequest();
+                }
             }
         }
         #endregion

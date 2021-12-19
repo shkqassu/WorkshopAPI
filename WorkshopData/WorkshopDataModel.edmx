@@ -187,6 +187,7 @@
         <Function Name="SP_DeleteWorkshopById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="WorkShopId" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_GetAllStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetMaterials" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="SP_GetTrainers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
@@ -226,6 +227,7 @@
           <Parameter Name="UserGender" Type="varchar" Mode="In" />
           <Parameter Name="Mobile" Type="nvarchar" Mode="In" />
           <Parameter Name="UserDob" Type="varchar" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
           <Parameter Name="RoleId" Type="int" Mode="In" />
         </Function>
         <Function Name="SP_UpdateUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -557,6 +559,7 @@
             <Parameter Name="UserGender" Mode="In" Type="String" />
             <Parameter Name="Mobile" Mode="In" Type="String" />
             <Parameter Name="UserDob" Mode="In" Type="String" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
             <Parameter Name="RoleId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_UpdateWorkshopById">
@@ -579,7 +582,7 @@
             <Parameter Name="IsActive" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="SP_GetUserById" ReturnType="Collection(WorkshopModel.SP_GetUserById_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="SP_UpdateUsers">
             <Parameter Name="FirstName" Mode="In" Type="String" />
@@ -592,6 +595,7 @@
             <Parameter Name="RoleId" Mode="In" Type="Int32" />
             <Parameter Name="UserId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="SP_GetAllStudents" ReturnType="Collection(WorkshopModel.SP_GetAllStudents_Result)" />
         </EntityContainer>
         <ComplexType Name="SP_GetMaterials_Result">
           <Property Type="Int32" Name="MaterialId" Nullable="false" />
@@ -691,6 +695,24 @@
           <Property Type="Int32" Name="RoleId" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SP_GetUserById_Result">
+          <Property Type="Int32" Name="Userid" Nullable="false" />
+          <Property Type="String" Name="UserName_Email" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UserGender" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Mobile" Nullable="true" MaxLength="100" />
+          <Property Type="Boolean" Name="IsActive" Nullable="true" />
+          <Property Type="DateTime" Name="UserDob" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SkillsSet" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Experience" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="RoleId" Nullable="true" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="Updateddate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_GetAllStudents_Result">
           <Property Type="Int32" Name="Userid" Nullable="false" />
           <Property Type="String" Name="UserName_Email" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Password" Nullable="true" MaxLength="100" />
@@ -964,6 +986,28 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_UpdateUsers" FunctionName="WorkshopModel.Store.SP_UpdateUsers" />
+          <FunctionImportMapping FunctionImportName="SP_GetAllStudents" FunctionName="WorkshopModel.Store.SP_GetAllStudents">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="WorkshopModel.SP_GetAllStudents_Result">
+                <ScalarProperty Name="Userid" ColumnName="Userid" />
+                <ScalarProperty Name="UserName_Email" ColumnName="UserName_Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserGender" ColumnName="UserGender" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="UserDob" ColumnName="UserDob" />
+                <ScalarProperty Name="SkillsSet" ColumnName="SkillsSet" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Updateddate" ColumnName="Updateddate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

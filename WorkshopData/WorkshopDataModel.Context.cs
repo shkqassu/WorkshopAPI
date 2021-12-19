@@ -189,7 +189,7 @@ namespace WorkshopData
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("SP_InsertWorkshop", workShopTitleParameter, workShopDateParameter, workShopDurationParameter, workshopTopicsParameter);
         }
     
-        public virtual int SP_RegisterStud(string userName_Email, string password, string firstName, string lastName, string userGender, string mobile, string userDob, Nullable<int> roleId)
+        public virtual int SP_RegisterStud(string userName_Email, string password, string firstName, string lastName, string userGender, string mobile, string userDob, Nullable<bool> isActive, Nullable<int> roleId)
         {
             var userName_EmailParameter = userName_Email != null ?
                 new ObjectParameter("UserName_Email", userName_Email) :
@@ -219,11 +219,15 @@ namespace WorkshopData
                 new ObjectParameter("UserDob", userDob) :
                 new ObjectParameter("UserDob", typeof(string));
     
+            var isActiveParameter = isActive.HasValue ?
+                new ObjectParameter("IsActive", isActive) :
+                new ObjectParameter("IsActive", typeof(bool));
+    
             var roleIdParameter = roleId.HasValue ?
                 new ObjectParameter("RoleId", roleId) :
                 new ObjectParameter("RoleId", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RegisterStud", userName_EmailParameter, passwordParameter, firstNameParameter, lastNameParameter, userGenderParameter, mobileParameter, userDobParameter, roleIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_RegisterStud", userName_EmailParameter, passwordParameter, firstNameParameter, lastNameParameter, userGenderParameter, mobileParameter, userDobParameter, isActiveParameter, roleIdParameter);
         }
     
         public virtual int SP_UpdateWorkshopById(string workShopTitle, Nullable<System.DateTime> workShopDate, string workShopDuration, string workshopTopics, Nullable<int> workShopId)
@@ -338,6 +342,11 @@ namespace WorkshopData
                 new ObjectParameter("UserId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SP_UpdateUsers", firstNameParameter, lastNameParameter, userGenderParameter, mobileParameter, skillsSetParameter, experienceParameter, userDobParameter, roleIdParameter, userIdParameter);
+        }
+    
+        public virtual ObjectResult<SP_GetAllStudents_Result> SP_GetAllStudents()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GetAllStudents_Result>("SP_GetAllStudents");
         }
     }
 }
