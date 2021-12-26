@@ -27,9 +27,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -49,9 +49,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -72,9 +72,9 @@ namespace WorkshopAPI.Controllers
                     return Ok(response.MaterialPath);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -83,18 +83,18 @@ namespace WorkshopAPI.Controllers
         #region Post
         [HttpPost]
         [Route("CreateMaterial")]
-        public bool CreateMaterial(Material M)
+        public IHttpActionResult CreateMaterial(Material M)
         {
             using (conString con = new conString())
             {
                 try
                 {
-                    con.SP_CreateMaterial(M.MaterialPath, M.WorkShopId);
-                    return true;
+                    var response = con.SP_CreateMaterial(M.MaterialPath, M.WorkShopId);
+                    return Ok(response);
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return BadRequest(ex.Message);
                 }
             }
         }

@@ -27,9 +27,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -49,11 +49,11 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                    catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
-        }
+            }
         }
 
         [HttpGet]
@@ -71,9 +71,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -93,9 +93,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -104,90 +104,118 @@ namespace WorkshopAPI.Controllers
         #region Post
         [HttpPost]
         [Route("InsertWorkshop")]
-        public bool InsertWorkshop(WorkShop Wp)
+        public IHttpActionResult InsertWorkshop(WorkShop Wp)
         {
             using(conString con = new conString())
             {
                 try
                 {
-                    con.SP_InsertWorkshop(Wp.WorkShopTitle, Wp.WorkShopDate, Wp.WorkShopDuration, Wp.WorkShopTopics);
-                    return true;
+                    var response = con.SP_InsertWorkshop(Wp.WorkShopTitle, Wp.WorkShopDate, Wp.WorkShopDuration, Wp.WorkShopTopics);
+                    return Created("Success", response);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    return false;
+                    return BadRequest(ex.Message);
                 }
             }
         }
 
         [HttpPut]
         [Route("UpdateWorkshop")]
-        public bool UpdateWorkshopById(WorkShop Wp)
+        public IHttpActionResult UpdateWorkshopById(WorkShop Wp)
         {
             using (conString con = new conString())
             {
                 try
                 {
-                    con.SP_UpdateWorkshopById(Wp.WorkShopTitle, Wp.WorkShopDate, Wp.WorkShopDuration, Wp.WorkShopTopics, Wp.WorkShopId);
-                    return true;
+                    var response = con.SP_UpdateWorkshopById(Wp.WorkShopTitle, Wp.WorkShopDate, Wp.WorkShopDuration, Wp.WorkShopTopics, Wp.WorkShopId);
+                    if (response < 1)
+                    {
+                        return InternalServerError();
+                    }
+                    else
+                    {
+                        return Ok("Success");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return BadRequest(ex.Message);
                 }
             }
         }
 
         [HttpDelete]
         [Route("DeleteWorkshop")]
-        public bool DeleteWorkshopById(int WorkshopId)
+        public IHttpActionResult DeleteWorkshopById(int WorkshopId)
         {
             using (conString con = new conString())
             {
                 try
                 {
-                    con.SP_DeleteWorkshopById(WorkshopId);
-                    return true;
+                    var response = con.SP_DeleteWorkshopById(WorkshopId);
+                    if (response < 1)
+                    {
+                        return InternalServerError();
+                    }
+                    else
+                    {
+                        return Ok("Success");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return BadRequest(ex.Message);
                 }
             }
         }
 
         [HttpPost]
         [Route("AssignTrainers")]
-        public bool AssignTrainersToWorkShop(Trainer_WorkShop_Mapping TWM)
+        public IHttpActionResult AssignTrainersToWorkShop(Trainer_WorkShop_Mapping TWM)
         {
             using (conString con = new conString())
             {
                 try
                 {
-                    con.SP_InsertIntoTrainerWorkshopMapping(TWM.TrainerId, TWM.WorkShopId);
-                    return true;
+                    var response = con.SP_InsertIntoTrainerWorkshopMapping(TWM.TrainerId, TWM.WorkShopId);
+                    if (response < 1)
+                    {
+                        return InternalServerError();
+                    }
+                    else
+                    {
+                        return Ok("Success");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return BadRequest(ex.Message);
                 }
             }
         }
 
         [HttpPut]
         [Route("AppOrRejWorkshop")]
-        public bool AppOrRejectWorkshopRequest(Student_WorkShop_Mapping SWM)
+        public IHttpActionResult AppOrRejectWorkshopRequest(Student_WorkShop_Mapping SWM)
         {
             using (conString con = new conString())
             {
                 try
                 {
-                    con.SP_AppOrRejectWorkshopRequest(SWM.ISApproved, SWM.SerialNo);
-                    return true;
+                    var response = con.SP_AppOrRejectWorkshopRequest(SWM.ISApproved, SWM.SerialNo);
+                    if (response < 1)
+                    {
+                        return InternalServerError();
+                    }
+                    else 
+                    {
+                        return Ok("Success");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    return BadRequest(ex.Message);
                 }
             }
         }

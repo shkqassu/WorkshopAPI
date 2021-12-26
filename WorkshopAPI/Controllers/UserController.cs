@@ -27,9 +27,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -48,9 +48,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch(Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -70,9 +70,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -91,9 +91,9 @@ namespace WorkshopAPI.Controllers
                     }
                     return Ok(response);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return BadRequest();
+                    return BadRequest(ex.Message);
                 }
             }
         }
@@ -112,7 +112,8 @@ namespace WorkshopAPI.Controllers
                     {
                         return NotFound();
                     }
-                    return Ok(response);
+                    else
+                        return Ok(response);
                 }
                 catch
                 {
